@@ -1,6 +1,6 @@
 {
   "projectName": "serilog-sinks-http",
-  "projectOwner": "FantasticFiasco",
+  "projectOwner": "josephcappellino",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
@@ -202,6 +202,16 @@
       "name": "consulting-dev",
       "avatar_url": "https://avatars.githubusercontent.com/u/155075432?v=4",
       "profile": "https://github.com/consulting-dev",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "josephcappellino",
+      "name": "Joseph Cappellino",
+      "avatar_url": "https://avatars.githubusercontent.com/u/354186?v=4",
+      "profile": "https://github.com/josephcappellino",
       "contributions": [
         "code",
         "ideas"
