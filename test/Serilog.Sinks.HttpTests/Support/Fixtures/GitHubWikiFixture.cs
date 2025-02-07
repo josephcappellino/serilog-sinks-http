@@ -12,12 +12,12 @@ namespace Serilog.Support.Fixtures;
 
 public class GitHubWikiFixture
 {
-    private const string WikiUrl = "https://raw.githubusercontent.com/wiki/FantasticFiasco/serilog-sinks-http/{0}";
-                                                              
+    private const string WikiUrl = "https://raw.githubusercontent.com/wiki/josephcappellino/serilog-sinks-http/{0}";
+
     private static readonly Regex LinkRegex = new Regex(@"\[(?<link>[\w\s.]+)\]\((?<url>[\w.:/]+)\)");
 
     private string pageContent;
-        
+
     public async Task LoadAsync(string wikiPage)
     {
         using var httpClient = new HttpClient();
