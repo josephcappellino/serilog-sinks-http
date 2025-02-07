@@ -3,7 +3,7 @@
   <!-- GENERAL -->
 
   <PropertyGroup>
-    <AssemblyName>Serilog.Sinks.Http</AssemblyName>
+    <AssemblyName>Serilog.Sinks.Http.Extensible</AssemblyName>
     <Description>A Serilog sink sending log events over HTTP.</Description>
     <TargetFrameworks>net462;netstandard2.0;netstandard2.1</TargetFrameworks>
     <RootNamespace>Serilog</RootNamespace>
@@ -13,7 +13,7 @@
     <PublicSign Condition="'$(OS)' != 'Windows_NT'">true</PublicSign>
     <AssemblyOriginatorKeyFile>../../serilog.snk</AssemblyOriginatorKeyFile>
     <!-- NuGet package -->
-    <PackageId>Serilog.Sinks.Http</PackageId>
+    <PackageId>Serilog.Sinks.Http.Extensible</PackageId>
     <PackageTags>serilog;http</PackageTags>
     <PackageIcon>serilog-sink-nuget.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -37,7 +37,7 @@
 
   <PropertyGroup>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <RepositoryUrl>https://github.com/FantasticFiasco/serilog-sinks-http.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/josephcappellino/serilog-sinks-http.git</RepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
