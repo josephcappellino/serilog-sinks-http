@@ -1,15 +1,15 @@
-# Serilog.Sinks.Http - A Serilog sink sending log events over HTTP <!-- omit in toc -->
+# Serilog.Sinks.Http.Extensible - A Serilog sink sending log events over HTTP <!-- omit in toc -->
 
-[![CI/CD](https://github.com/FantasticFiasco/serilog-sinks-http/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/FantasticFiasco/serilog-sinks-http/actions/workflows/ci-cd.yml)
+[![CI/CD](https://github.com/josephcappellino/serilog-sinks-http/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/josephcappellino/serilog-sinks-http/actions/workflows/ci-cd.yml)
 [![codecov](https://codecov.io/gh/FantasticFiasco/serilog-sinks-http/branch/main/graph/badge.svg?token=cw6OYeQmdH)](https://codecov.io/gh/FantasticFiasco/serilog-sinks-http)
-[![NuGet Version](http://img.shields.io/nuget/v/Serilog.Sinks.Http.svg?style=flat)](https://www.nuget.org/packages/Serilog.Sinks.Http/)
+[![NuGet Version](http://img.shields.io/nuget/v/Serilog.Sinks.Http.Extensible.svg?style=flat)](https://www.nuget.org/packages/Serilog.Sinks.Http.Extensible/)
 [![SemVer compatible](https://img.shields.io/badge/%E2%9C%85-SemVer%20compatible-blue)](https://semver.org/)
-[![NuGet](https://img.shields.io/nuget/dt/Serilog.Sinks.Http.svg)](https://www.nuget.org/packages/Serilog.Sinks.Http/)
+[![NuGet](https://img.shields.io/nuget/dt/Serilog.Sinks.Http.Extensible.svg)](https://www.nuget.org/packages/Serilog.Sinks.Http.Extensible/)
 [![Documentation](https://img.shields.io/badge/docs-wiki-yellow.svg)](https://github.com/serilog/serilog/wiki)
 [![Join the chat at https://gitter.im/serilog/serilog](https://img.shields.io/gitter/room/serilog/serilog.svg)](https://gitter.im/serilog/serilog)
 [![Help](https://img.shields.io/badge/stackoverflow-serilog-orange.svg)](http://stackoverflow.com/questions/tagged/serilog)
 
-**Package** - [Serilog.Sinks.Http](https://www.nuget.org/packages/serilog.sinks.http) | **Platforms** - .NET 4.5/4.6.1, .NET Standard 2.0/2.1
+**Package** - [Serilog.Sinks.Http.Extensible](https://www.nuget.org/packages/serilog.sinks.http.extensible) | **Platforms** - .NET 4.5/4.6.1, .NET Standard 2.0/2.1
 
 ## Table of contents <!-- omit in toc -->
 
@@ -65,7 +65,7 @@ Used in conjunction with [Serilog.Settings.Configuration](https://github.com/ser
 }
 ```
 
-The sink can also be configured to be durable, i.e. log events are persisted on disk before being sent over the network, thus protected against data loss after a system or process restart. For more information please read the [wiki](https://github.com/FantasticFiasco/serilog-sinks-http/wiki).
+The sink can also be configured to be durable, i.e. log events are persisted on disk before being sent over the network, thus protected against data loss after a system or process restart. For more information please read the [wiki](https://github.com/josephcappellino/serilog-sinks-http/wiki).
 
 The sink is batching multiple log events into a single request, and the following hypothetical payload is sent over the network as JSON.
 
@@ -131,18 +131,18 @@ The following sample applications demonstrate the usage of this sink in various 
 - [Serilog.Sinks.Http - Sample in .NET Core](https://github.com/FantasticFiasco/serilog-sinks-http-sample-dotnet-core) - Sample application producing log events in .NET Core. This project also includes a sample log server and controller in .NET Core.
 - [Serilog.Sinks.Http - Sample in .NET Framework](https://github.com/FantasticFiasco/serilog-sinks-http-sample-dotnet-framework) - Sample application producing log events in .NET Framework. This project also includes a sample log server and controller in .NET Framework.
 
-The following sample application demonstrate how Serilog events from a Docker container end up in the Elastic Stack using [Logspout](https://github.com/gliderlabs/logspout), without using `Serilog.Sinks.Http`.
+The following sample application demonstrate how Serilog events from a Docker container end up in the Elastic Stack using [Logspout](https://github.com/gliderlabs/logspout), without using `Serilog.Sinks.Http.Extensible`.
 
 - [Serilog, Logspout and the Elastic Stack](https://github.com/FantasticFiasco/serilog-logspout-elastic-stack) - Sample application sending log events from a Docker container using Logspout to Elastic Stack
 
 ## Install via NuGet
 
-If you want to include the HTTP sink in your project, you can [install it directly from NuGet](https://www.nuget.org/packages/Serilog.Sinks.Http/).
+If you want to include the HTTP sink in your project, you can [install it directly from NuGet](https://www.nuget.org/packages/Serilog.Sinks.Http.Extensible/).
 
 To install the sink, run the following command in the Package Manager Console:
 
 ```
-PM> Install-Package Serilog.Sinks.Http
+PM> Install-Package Serilog.Sinks.Http.Extensible
 ```
 
 ## Contributors
