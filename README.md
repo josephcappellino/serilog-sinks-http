@@ -11,9 +11,14 @@
 
 **Package** - [Serilog.Sinks.Http.Extensible](https://www.nuget.org/packages/serilog.sinks.http.extensible) | **Platforms** - .NET 4.5/4.6.1, .NET Standard 2.0/2.1
 
+> [!NOTE]
+> See [Differences from base package `Serilog.Sinks.Http`](#differences-from-base-package-serilogsinkshttp) for what makes this repository/package different from the base package.
+
 ## Table of contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
+- [Differences from base package `Serilog.Sinks.Http`](#differences-from-base-package-serilogsinkshttp)
+  - [`ITextFormatter` Implementations](#itextformatter-implementations)
 - [Super simple to use](#super-simple-to-use)
 - [Typical use cases](#typical-use-cases)
   - [Send log events from Docker containers](#send-log-events-from-docker-containers)
@@ -32,6 +37,16 @@ This project started out with a wish to send log events to the Elastic Stack. I 
 Knowing that [Serilog.Sinks.Seq](https://github.com/serilog/serilog-sinks-seq) existed, and knowing that the code was of really good quality, I blatantly copied many of the core files into this project and started developing a general HTTP sink.
 
 And here we are today. I hope you'll find the sink useful. If not, don't hesitate to open an issue.
+
+## Differences from base package `Serilog.Sinks.Http`
+
+This repo was forked from [FantasticFiasco](https://github.com/FantasticFiasco)'s [Serilog.Sinks.Http](https://github.com/FantasticFiasco/serilog-sinks-http).
+
+This repository was created to provide additional extensibility to Text Formatters, but could be used to further the development of the Sink.
+
+### `ITextFormatter` Implementations
+
+There was a need to provide extensibility to the Text Formatters as to not have to duplicate the entire formatter to change a small portion. To handle this, [`NormalTextFormatter`](./src/Serilog.Sinks.Http/Sinks/Http/TextFormatters/NormalTextFormatter.cs) became the base class for all other implementations and provided `protected virtual` methods/properties for each output field. This then allows child classes to override just the methods they need different from the base implementation. This design was carried out and used for `CompactTextFormatter` (with the use of overriding field names, as well as values) and `NamespacedTextFormatter` (which overrides the `Properties` field while also calling the base implementation to loop around the data).
 
 ## Super simple to use
 
