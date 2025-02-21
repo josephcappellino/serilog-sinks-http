@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning](https://semver.org/) and is follow
 
 ## Unreleased
 
+## [9.2.2] - 2025-02-21
+
+### :zap: Added
+
+- Merged downstream changes
+
 ## [9.2.1] - 2025-02-07
 
 ### :zap: Added
