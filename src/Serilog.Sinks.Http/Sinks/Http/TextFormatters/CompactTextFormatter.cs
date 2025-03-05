@@ -68,23 +68,29 @@ public class CompactTextFormatter : NormalTextFormatter
         Write(SpanIdKey, logEvent.SpanId?.ToHexString() ?? "", output);
 
     /// <inheritdoc />
+    protected override void WritePropertyValue(
+        string key,
+        LogEventPropertyValue value,
+        TextWriter output)
+    {
+        if (key.Length > 0 && key[0] == '@')
+        {
+            // Escape first '@' by doubling
+            key = '@' + key;
+        }
+
+        base.WritePropertyValue(key, value, output);
+    }
+
+    /// <inheritdoc />
     protected override void WriteProperties(
         IReadOnlyDictionary<string, LogEventPropertyValue> properties,
         TextWriter output)
     {
         foreach (var property in properties)
         {
-            var name = property.Key;
-            if (name.Length > 0 && name[0] == '@')
-            {
-                // Escape first '@' by doubling
-                name = '@' + name;
-            }
-
-            output.Write(',');
-            JsonValueFormatter.WriteQuotedJsonString(name, output);
-            output.Write(':');
-            ValueFormatter.Instance.Format(property.Value, output);
+            output.Write(DELIMITER);
+            WritePropertyValue(property.Key, property.Value, output);
         }
     }
 
@@ -94,14 +100,15 @@ public class CompactTextFormatter : NormalTextFormatter
         IReadOnlyDictionary<string, LogEventPropertyValue> properties,
         TextWriter output)
     {
-        output.Write(",\"");
-        output.Write(RenderingsKey);
-        output.Write("\":[");
+        output.Write(DELIMITER);
+        JsonValueFormatter.WriteQuotedJsonString(RenderingsKey, output);
+        output.Write(SEPARATOR);
+        output.Write("[");
         var delim = string.Empty;
         foreach (var r in tokensWithFormat)
         {
             output.Write(delim);
-            delim = ",";
+            delim = DELIMITER;
             var space = new StringWriter();
             r.Render(properties, space);
             JsonValueFormatter.WriteQuotedJsonString(space.ToString(), output);

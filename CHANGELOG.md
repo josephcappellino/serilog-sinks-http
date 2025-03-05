@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning](https://semver.org/) and is follow
 
 ## Unreleased
 
+## [9.2.3] - 2025-03-05
+
+### :zap: Added
+
+- [#10] - Fixes concurrency issue where processing multiple log entries at the same time would generate invalid JSON.
+
 ## [9.2.2] - 2025-02-21
 
 ### :zap: Added

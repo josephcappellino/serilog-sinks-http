@@ -38,9 +38,14 @@ namespace Serilog.Sinks.Http.TextFormatters;
 public class NormalTextFormatter : ITextFormatter
 {
     /// <summary>
-    /// Used to determine if any items have been added to the JSON, yet.
+    /// The delimiter used between fields.
     /// </summary>
-    private bool hasTags;
+    public const string DELIMITER = ",";
+
+    /// <summary>
+    /// The separator between keys and values.
+    /// </summary>
+    public const string SEPARATOR = ":";
 
     /// <summary>
     /// Gets or sets a value indicating whether the message is rendered into JSON.
@@ -111,13 +116,11 @@ public class NormalTextFormatter : ITextFormatter
     {
         try
         {
-            hasTags = false; // force reset
-
             var buffer = new StringWriter();
             FormatContent(logEvent, buffer);
 
             // If formatting was successful, write to output
-            output.WriteLine(buffer.ToString());
+            output.Write(buffer.ToString());
         }
         catch (Exception e)
         {
@@ -131,18 +134,14 @@ public class NormalTextFormatter : ITextFormatter
     /// <param name="key">The JSON key.</param>
     /// <param name="value">The JSON value.</param>
     /// <param name="output">The output.</param>
-    protected void Write(string key, string value, TextWriter output)
+    /// <param name="delimStart">The preceding delimiter.</param>
+    protected static void Write(string key, string value, TextWriter output, string delimStart = DELIMITER)
     {
-        if (hasTags)
-        {
-            output.Write(',');
-        }
+        output.Write(delimStart);
 
         JsonValueFormatter.WriteQuotedJsonString(key, output);
-        output.Write(":");
+        output.Write(SEPARATOR);
         JsonValueFormatter.WriteQuotedJsonString(value, output);
-
-        hasTags = true;
     }
 
     private void FormatContent(LogEvent logEvent, TextWriter output)
@@ -152,6 +151,7 @@ public class NormalTextFormatter : ITextFormatter
 
         output.Write("{");
 
+        // Timestamp must be first as it does not have a preceding delimiter
         WriteTimestamp(logEvent, output);
         WriteLogLevel(logEvent, output);
         WriteMessageTemplate(logEvent, output);
@@ -200,7 +200,7 @@ public class NormalTextFormatter : ITextFormatter
     /// <param name="logEvent">The event to format.</param>
     /// <param name="output">The output.</param>
     protected virtual void WriteTimestamp(LogEvent logEvent, TextWriter output) =>
-        Write(TimestampKey, logEvent.Timestamp.UtcDateTime.ToString("O"), output);
+        Write(TimestampKey, logEvent.Timestamp.UtcDateTime.ToString("O"), output, string.Empty);
 
     /// <summary>
     /// Writes the log level to the output.
@@ -267,9 +267,10 @@ public class NormalTextFormatter : ITextFormatter
         IReadOnlyDictionary<string, LogEventPropertyValue> properties,
         TextWriter output)
     {
-        output.Write(",\"");
-        output.Write(PropertiesKey);
-        output.Write("\":{");
+        output.Write(DELIMITER);
+        JsonValueFormatter.WriteQuotedJsonString(PropertiesKey, output);
+        output.Write(SEPARATOR);
+        output.Write("{");
 
         WritePropertiesValues(properties, output);
 
@@ -291,7 +292,7 @@ public class NormalTextFormatter : ITextFormatter
         foreach (var property in properties)
         {
             output.Write(precedingDelimiter);
-            precedingDelimiter = ",";
+            precedingDelimiter = DELIMITER;
 
             WritePropertyValue(property.Key, property.Value, output);
         }
@@ -309,7 +310,7 @@ public class NormalTextFormatter : ITextFormatter
         TextWriter output)
     {
         JsonValueFormatter.WriteQuotedJsonString(key, output);
-        output.Write(':');
+        output.Write(SEPARATOR);
         ValueFormatter.Instance.Format(value, output);
     }
 
@@ -346,36 +347,35 @@ public class NormalTextFormatter : ITextFormatter
         IReadOnlyDictionary<string, LogEventPropertyValue> properties,
         TextWriter output)
     {
-        output.Write(",\"");
-        output.Write(RenderingsKey);
-        output.Write("\":{");
+        output.Write(DELIMITER);
+        JsonValueFormatter.WriteQuotedJsonString(RenderingsKey, output);
+        output.Write(SEPARATOR);
+        output.Write("{");
 
         var rdelim = string.Empty;
         foreach (var ptoken in tokensGrouped)
         {
             output.Write(rdelim);
-            rdelim = ",";
+            rdelim = DELIMITER;
 
             JsonValueFormatter.WriteQuotedJsonString(ptoken.Key, output);
-            output.Write(":[");
+            output.Write(SEPARATOR);
+            output.Write("[");
 
             var fdelim = string.Empty;
             foreach (var format in ptoken)
             {
                 output.Write(fdelim);
-                fdelim = ",";
+                fdelim = DELIMITER;
 
-                output.Write("{\"");
-                output.Write(RenderingsFormatKey);
-                output.Write("\":");
-                JsonValueFormatter.WriteQuotedJsonString(format.Format ?? "\"\"", output);
-
-                output.Write(",\"");
-                output.Write(RenderingsRenderingKey);
-                output.Write("\":");
                 var sw = new StringWriter();
                 format.Render(properties, sw);
-                JsonValueFormatter.WriteQuotedJsonString(sw.ToString(), output);
+
+                output.Write("{");
+
+                Write(RenderingsFormatKey, format.Format ?? "\"\"", output, delimStart: string.Empty);
+                Write(RenderingsRenderingKey, sw.ToString(), output);
+
                 output.Write('}');
             }
 
